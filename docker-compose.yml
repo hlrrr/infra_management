@@ -28,6 +28,3 @@ services:
 networks:
   rockyNet:
     name: rockyNet
-    # external: true
-# CMD
-# docker network create -d ipvlan --subnet=211.100.2.0/24 --gateway=211.100.2.
