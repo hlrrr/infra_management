@@ -1,0 +1,33 @@
+# version: "3"
+
+services:
+  rocky_one:
+    image: rockylinux:9
+    container_name: rk_uno
+    restart: on-failure
+    command: ["sleep", "infinity"]
+    networks:
+      - rockyNet
+
+  rocky_two:
+    image: rockylinux:9
+    container_name: rk_dos
+    restart: on-failure
+    command: ["sleep", "infinity"]
+    networks:
+      - rockyNet
+
+  rocky_three:
+    image: rockylinux:9
+    container_name: rk_tres
+    restart: on-failure
+    command: ["sleep", "infinity"]
+    networks:
+      - rockyNet
+
+networks:
+  rockyNet:
+    name: rockyNet
+    # external: true
+# CMD
+# docker network create -d ipvlan --subnet=211.100.2.0/24 --gateway=211.100.2.
