@@ -1,8 +1,5 @@
 
-<details><summary>
-	
-Proxmox lab setup note
----
+<details><summary>Proxmox lab setup ㅜote</summary>
 - DNS setup\
   setup server via dnsmasq.\
   let LXCs use the DNS server.\
@@ -55,5 +52,4 @@ Proxmox lab setup note
 
 - SSH setup\
 ```#PermitRootLogin prohibit-password```
-
-</summary></details>
+</details>
