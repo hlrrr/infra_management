@@ -1,3 +1,6 @@
+
+<details><summary>
+	
 Proxmox lab setup note
 ---
 - DNS setup\
@@ -51,4 +54,6 @@ Proxmox lab setup note
 
 
 - SSH setup\
-```#PermitRootLogin prohibit-password```  
+```#PermitRootLogin prohibit-password```
+
+</summary></details>
