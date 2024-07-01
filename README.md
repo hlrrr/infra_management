@@ -1,5 +1,17 @@
+<details><summary>Ansible Note</summary>
 
-<details><summary>Proxmox lab setup ㅜote</summary>
+- Remote host auth/permission problem
+/etc/ansible/ansible.cfg
+	```
+	[privilege_escalation]
+	become=True
+	become_method=sudo
+	become_user=root
+	become_ask_pass=True
+	```
+</details>
+
+<details><summary>Proxmox lab setup Note</summary>
 - DNS setup\
   setup server via dnsmasq.\
   let LXCs use the DNS server.\
