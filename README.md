@@ -1,5 +1,5 @@
-Proxmox 
-
+Proxmox lab setup note
+---
 - DNS setup\
   setup server via dnsmasq.\
   let LXCs use the DNS server.\
