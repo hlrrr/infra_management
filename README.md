@@ -29,7 +29,7 @@
 
 <details><summary>Proxmox Note</summary>
 
- - ubuntu VM(cloned) ip addr config.
+ - ubuntu VM(cloned) ip addr config.\
    mod ```/etc/netplan/[some-config.yaml]```\
    execute ```netplan apply``` / ```systemctl restart systemd-networkd```(optional)
 
