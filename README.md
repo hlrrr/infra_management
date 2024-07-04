@@ -1,3 +1,19 @@
+<details><summary>WIP...</summary>
+</details>
+
+
+<details><summary>k8s Note</summary>
+
+- prevent auto-upgrading\
+  	```sudo apt-mark hold kubeadm```
+
+- ```swappff -a``` and  mod ```/etc/fstab```
+- error : ``` container runtime is not running:```\
+	mod  ```/etc/containerd/config.toml```
+- ```/var/lib/kubelet/config.yaml``` will be created after ```kubeadm init```
+	
+</details>
+
 <details><summary>Ansible Note</summary>
 
 - Remote host auth/permission problem
@@ -11,7 +27,12 @@
 	```
 </details>
 
-<details><summary>Proxmox lab setup Note</summary>
+<details><summary>Proxmox Note</summary>
+
+ - ubuntu VM(cloned) ip addr config.
+   mod ```/etc/netplan/[some-config.yaml]```\
+   execute ```netplan apply``` / ```systemctl restart systemd-networkd```(optional)
+
 - DNS setup\
   setup server via dnsmasq.\
   let LXCs use the DNS server.\
