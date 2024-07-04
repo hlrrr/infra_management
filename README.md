@@ -4,7 +4,7 @@
 
 <details><summary>k8s Note</summary>
 	
-- error: ```The connection to the server localhost:8080 was refused```
+- error(root): ```The connection to the server localhost:8080 was refused```\
   ```
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
