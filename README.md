@@ -3,7 +3,12 @@
 
 
 <details><summary>k8s Note</summary>
-
+	
+- error: ```The connection to the server localhost:8080 was refused```
+  ```
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config``` 
 - prevent auto-upgrading\
   	```sudo apt-mark hold kubeadm```
 
