@@ -3,7 +3,43 @@
 
 
 <details><summary>k8s Note</summary>
-	
+
+
+- config for dualstack:
+  ```
+	vi kubeadm-config.yaml
+	---
+	apiVersion: kubeadm.k8s.io/v1beta3
+	kind: ClusterConfiguration
+	networking:
+	  podSubnet: 10.244.0.0/16,fc00:10:244::/56
+	  serviceSubnet: 10.96.0.0/16,fc00:10:96::/108
+	---
+	apiVersion: kubeadm.k8s.io/v1beta3
+	kind: InitConfiguration
+	localAPIEndpoint:
+	  advertiseAddress: "192.168.10.10"
+	  bindPort: 6443
+	nodeRegistration:
+	  kubeletExtraArgs:
+	    node-ip: 192.168.10.10,2001:470:61bb:10::10
+
+  	kubeadm init --config=kubeadm-config.yaml
+  ```
+  ```
+  curl -OL https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
+	vi kube-flannel.yml (net-conf.json)
+
+  	"EnableIPv6": true,
+  	"IPv6Network" : "fc00:10:244::/56"
+
+	kubectl apply -f kube-flannel.yml
+  	kubectl get all -n kube-flannel
+	kubectl get pods -A
+	kubectl describe node node1 | grep Taints
+	kubectl taint node node1 node-role.kubernetes.io/control-plane:NoSchedule-
+  ```
 - error: ```The connection to the server localhost:8080 was refused```\
   for root: ```export KUBECONFIG=/etc/kubernetes/admin.conf``` 
 - prevent auto-upgrading\
@@ -12,21 +48,31 @@
 - ```swappff -a``` and  mod ```/etc/fstab```
 - error : ``` container runtime is not running:```\
 	mod  ```/etc/containerd/config.toml```
-- ```/var/lib/kubelet/config.yaml``` will be created after ```kubeadm init```
+- packet forward
+  ```
+	  vi /etc/sysctl.conf
+	  
+	  net.ipv4.ip_forward=1
+	  net.ipv6.conf.all.forwarding=1
+  
+	  sysctl -p
+  ```
+> ```/var/lib/kubelet/config.yaml``` will be created after ```kubeadm init```
 	
 </details>
 
 <details><summary>Ansible Note</summary>
 
-- Remote host auth/permission problem
-/etc/ansible/ansible.cfg
-	```
+- Remote host auth/permission problem\
+  ```
+	/etc/ansible/ansible.cfg
+
 	[privilege_escalation]
 	become=True
 	become_method=sudo
 	become_user=root
 	become_ask_pass=True
-	```
+  ```
 </details>
 
 <details><summary>Proxmox Note</summary>
@@ -46,7 +92,7 @@
 
   > systemd config: fail.\
   NetworkManager config: fail \
-	script after bootup: fail.\
+  script after bootup: fail.\
   proxmox host config: fail.
 ---
 - VLAN setup\
