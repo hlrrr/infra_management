@@ -37,17 +37,27 @@
 	kubectl apply -f kube-flannel.yml
   	kubectl get all -n kube-flannel
 	kubectl get pods -A
-	kubectl describe node node1 | grep Taints
-	kubectl taint node node1 node-role.kubernetes.io/control-plane:NoSchedule-
+	kubectl describe node [hostname] | grep Taints
+	kubectl taint node [hostname] node-role.kubernetes.io/control-plane:NoSchedule-
   ```
-- error: ```The connection to the server localhost:8080 was refused```\
-  for root: ```export KUBECONFIG=/etc/kubernetes/admin.conf``` 
+  
+- error: ```The connection to the server localhost:8080 was refused```
+  for root: ```export KUBECONFIG=/etc/kubernetes/admin.conf```
+  
 - prevent auto-upgrading\
   	```sudo apt-mark hold kubeadm```
 
 - ```swappff -a``` and  mod ```/etc/fstab```
-- error : ``` container runtime is not running:```\
-	mod  ```/etc/containerd/config.toml```
+  
+- error : ``` container runtime is not running:```
+  ```
+  /etc/containerd/config.toml
+
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+  	SystemdCgroup = true
+
+  systemctl restart containerd
+  ```
 - packet forward
   ```
 	  vi /etc/sysctl.conf
@@ -57,6 +67,7 @@
   
 	  sysctl -p
   ```
+  
 > ```/var/lib/kubelet/config.yaml``` will be created after ```kubeadm init```
 	
 </details>
