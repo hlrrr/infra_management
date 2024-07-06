@@ -40,27 +40,43 @@
 	kubectl describe node [hostname] | grep Taints
 	kubectl taint node [hostname] node-role.kubernetes.io/control-plane:NoSchedule-
   ```
-  
-- error: ```The connection to the server localhost:8080 was refused```
-  for root: ```export KUBECONFIG=/etc/kubernetes/admin.conf```
-  
-- prevent auto-upgrading\
-  	```sudo apt-mark hold kubeadm```
-
-- ```swappff -a``` and  mod ```/etc/fstab```
-  
-- error : ``` container runtime is not running:```
+- need to reboot(?) before join
+   
+- prevent auto-upgrading
   ```
-  /etc/containerd/config.toml
+  sudo apt-mark hold kubeadm
+  sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+  ```
+  
+- change hostname
+  ```
+  hostnamectl set-hostname [new_host_name]
+  
+  vi /etc/hosts
+  ```
+  
+- disable swap
+  ```
+  swappff -a
+
+  vi /etc/fstab
+  ```
+  
+- container runtime config.
+  ```
+  containerd config default > /etc/containerd/config.toml
+
+  vi /etc/containerd/config.toml
 
   [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
   	SystemdCgroup = true
 
   systemctl restart containerd
   ```
-- packet forward
+  
+- packet forward config.
   ```
-	  vi /etc/sysctl.conf
+	  vi /etc/sysctl.d/99-sysctl.conf
 	  
 	  net.ipv4.ip_forward=1
 	  net.ipv6.conf.all.forwarding=1
