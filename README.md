@@ -90,7 +90,7 @@
 
 <details><summary>Ansible Note</summary>
 
-- Remote host auth/permission problem\
+- Remote host auth/permission problem
   ```
 	/etc/ansible/ansible.cfg
 
