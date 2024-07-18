@@ -90,6 +90,12 @@
 
 <details><summary>Ansible Note</summary>
 
+- become sudo auth
+  ```
+  become: yes
+  become_method: sudo
+  become_user: root
+  ```
 - Remote host auth/permission problem
   ```
 	/etc/ansible/ansible.cfg
