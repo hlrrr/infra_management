@@ -1,0 +1,38 @@
+ ---
+- name: Install Nginx, create index.html, restart Nginx, and add user on CentOS
+  hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+
+  tasks:
+    - name: Create index.html
+      copy:
+        content: "<html><body><h1>Welcome to my Nginx server!</h1></body></html>"
+        dest: /usr/share/nginx/html/index.html
+
+# content [string]
+# When used instead of src, sets the contents of a file directly to the specified value.
+# Works only when dest is a file. Creates the file if it does not exist.
+# For advanced formatting or if content contains a variable, use the ansible.builtin.template module.
+
+    - name: Ensure Nginx is started and enabled
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Add user awsuser1
+      user:
+        name: awsuser1
+        state: present
+        groups: wheel
+        shell: /bin/bash
+
+    - name: Ensure wheel group has sudo privileges
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) ALL'
+        validate: '/usr/sbin/visudo -cf %s'
