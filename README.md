@@ -1,6 +1,13 @@
-<details><summary>WIP...</summary>
+<details><summary>AWS CLI</summary>
+	
+- recover default VPC:
+	```
+	aws ec2 create-default-subnet --availability-zone us-west-2a
+	```
+
 </details>
 
+---
 
 <details><summary>k8s Note</summary>
 
@@ -88,6 +95,8 @@
 	
 </details>
 
+---
+
 <details><summary>Ansible Note</summary>
 
 - become sudo auth
@@ -107,6 +116,8 @@
 	become_ask_pass=True
   ```
 </details>
+
+---
 
 <details><summary>Proxmox Note</summary>
 
