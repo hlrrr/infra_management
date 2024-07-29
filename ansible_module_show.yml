@@ -36,3 +36,83 @@
         regexp: '^%wheel'
         line: '%wheel ALL=(ALL) ALL'
         validate: '/usr/sbin/visudo -cf %s'
+
+  ---
+- name: ansible study
+  hosts: nds
+  become: yes
+  collections:
+    - community.docker
+
+  vars:
+    docker_containers:
+      - name: httpd
+        image: httpd:latest
+        ports: 
+          - "10080:80"      
+      
+      - name: nginx
+        image: nginx:latest
+        ports:
+          - "20080:80"
+   
+    add_repos:
+      - name: docker repo
+        desc: add docker repo
+        URL: https://download.docker.com/linux/centos/docker-ce.repo
+      
+      - name: terraform repo
+        desc: add terraform repo
+        URL: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo         
+
+  tasks:
+    - name: add repos
+      ansible.builtin.yum_repository:
+        name: "{{ item.name }}"
+        description: "{{ item.desc }}"
+        baseurl: "{{ item.URL }}"
+      loop: "{{ add_repos }}"
+
+    - name: install docker collection 
+      command:
+        cmd: ansible-galaxy collection install community.docker
+        creates: /etc/yum.repos.d/docker-ce.repo
+    
+    - name: install docker
+      yum:
+        name: yum-utils
+        state: present
+
+    - name: install docker 
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+
+    - name: start dodcker
+      service:
+        name: docker
+        state: started
+        enable: yes 
+                  
+    - name: install docker collection 
+      command:
+        cmd: ansible-galaxy collection install community.docker
+        creates: /etc/yum.repos.d/docker-ce.repo
+        changed_when: "'community.docker' not in lookup('ansible.builtin.shell', 'ansible-galaxy collection list', split_lines=True)"
+
+    - name: docker pull and run
+      community.docker.docker_container:
+        name: "{{ item.name }}"
+        image: "{{ item.image }}"
+        state: started
+        ports: "{{ item.ports }}"
+        restart_policy: unless-stopped
+      loop: "{{ docker_containers }}"
+         
+  
+
