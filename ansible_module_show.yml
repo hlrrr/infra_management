@@ -41,11 +41,11 @@
 - name: ansible study
   hosts: nds
   become: yes
-  collections:
-    - community.docker
+  collections:   # 추가 설치한 모듈 사용시 명시해야한다.
+    - community.docker 
 
-  vars:
-    docker_containers:
+  vars:  # 이하 내용을 loop로 대입.
+    docker_containers:    # loop명 설정시 공백 불가능.
       - name: httpd
         image: httpd:latest
         ports: 
@@ -55,7 +55,7 @@
         image: nginx:latest
         ports:
           - "20080:80"
-   
+
     add_repos:
       - name: docker repo
         desc: add docker repo
@@ -72,6 +72,7 @@
         description: "{{ item.desc }}"
         baseurl: "{{ item.URL }}"
       loop: "{{ add_repos }}"
+      # vars 선언한 내용 대입. item 항목명 주의.
 
     - name: install docker collection 
       command:
@@ -104,6 +105,7 @@
         cmd: ansible-galaxy collection install community.docker
         creates: /etc/yum.repos.d/docker-ce.repo
         changed_when: "'community.docker' not in lookup('ansible.builtin.shell', 'ansible-galaxy collection list', split_lines=True)"
+        # 조건부 변경 명령
 
     - name: docker pull and run
       community.docker.docker_container:
