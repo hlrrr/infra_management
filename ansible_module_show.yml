@@ -71,18 +71,17 @@
         name: "{{ item.name }}"
         description: "{{ item.desc }}"
         baseurl: "{{ item.URL }}"
-      loop: "{{ add_repos }}"
-      # vars 선언한 내용 대입. item 항목명 주의.
+      loop: "{{ add_repos }}"  # vars 선언한 내용 대입. item 항목명 주의.
 
     - name: install docker collection 
       command:
-        cmd: ansible-galaxy collection install community.docker
-        creates: /etc/yum.repos.d/docker-ce.repo
+        cmd: ansible-galaxy collection install community.docker  # 추가 모듈설치
+        creates: /etc/yum.repos.d/docker-ce.repo  # 파일이 이미 존재하면 건너뜀
     
     - name: install docker
       yum:
         name: yum-utils
-        state: present
+        state: present  # 패키지가 이미 설치되었다면 건너뜀
 
     - name: install docker 
       yum:
@@ -91,18 +90,18 @@
           - docker-ce-cli
           - containerd.io
           - docker-buildx-plugin
-          - docker-compose-plugin
+          - docker-compose-plugin  # 복수의 패키지 설치
         state: present
 
     - name: start dodcker
       service:
         name: docker
         state: started
-        enable: yes 
+        enable: yes  # 서비스 등록
                   
     - name: install docker collection 
       command:
-        cmd: ansible-galaxy collection install community.docker
+        cmd: ansible-galaxy collection install community.docker  # 추가 모듈 설치
         creates: /etc/yum.repos.d/docker-ce.repo
         changed_when: "'community.docker' not in lookup('ansible.builtin.shell', 'ansible-galaxy collection list', split_lines=True)"
         # 조건부 변경 명령
