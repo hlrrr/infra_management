@@ -49,7 +49,7 @@
       - name: httpd
         image: httpd:latest
         ports: 
-          - "10080:80"      
+          - "10080:80"  # 인라인으로도 가능하지만 리스트 형태 권장
       
       - name: nginx
         image: nginx:latest
