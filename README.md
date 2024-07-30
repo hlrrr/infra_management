@@ -100,6 +100,10 @@
 
 <details><summary>Ansible Note</summary>
 
+- install community module
+  ```
+  ansible-galaxy collection install community.docker
+  ```
 - become sudo auth
   ```
   become: yes
