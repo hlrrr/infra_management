@@ -1,5 +1,14 @@
 AWS Global Accelerator vs CloudFront
 
-1. Create a TXT record in your DNS configuration for the following hostname: _github-pages-challenge-hlrrr.note.pages
-2. Use this code for the value of the TXT record: aa3660507504a1758fab0bb707577f
-3. Wait until your DNS configuration changes. This could take up to 24 hours to propagate.
+• They both use the AWS global network and its edge locations around the world
+• Both services integrate with AWS Shield for DDoS protection.
+• CloudFront
+• Improves performance for both cacheable content (such as images and videos)
+• Dynamic content (such as API acceleration and dynamic site delivery)
+• Content is served at the edge
+• Global Accelerator
+• Improves performance for a wide range of applications over TCP or UDP
+• Proxying packets at the edge to applications running in one or more AWS Regions.
+• Good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP
+• Good for HTTP use cases that require static IP addresses
+• Good for HTTP use cases that required deterministic, fast regional failover
