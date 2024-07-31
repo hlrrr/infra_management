@@ -103,7 +103,8 @@
 - changed ssh port
   ```
   .ini file
-  10.0.2.105 ansible_port=10022
+  
+  [node ip] ansible_port=10022
   ```
   
 - install community module
