@@ -27,6 +27,7 @@
         state: present
         groups: wheel
         shell: /bin/bash
+        append: yes  # 기본 그룹 + gourps에 할당한 그룹 추가
 
     - name: Ensure wheel group has sudo privileges
       lineinfile:
@@ -34,7 +35,7 @@
         state: present
         regexp: '^%wheel'
         line: '%wheel ALL=(ALL) ALL'
-        validate: '/usr/sbin/visudo -cf %s'
+        validate: '/usr/sbin/visudo -cf %s'  # 파일 유효성 검사, 미통과 시 에러
 
   ---
 - name: ansible study
@@ -77,6 +78,17 @@
         cmd: ansible-galaxy collection install community.docker  # 추가 모듈설치
         creates: /etc/yum.repos.d/docker-ce.repo  # 파일이 이미 존재하면 건너뜀
     
+    - name: Add port 80/tcp to firewalld
+      firewalld:
+        port: 80/tcp
+        permanent: yes  # 변경 사항 영구 적용
+        state: enabled
+        immediate: yes  # 변경 사항을 즉시 적용, reload 불필요
+
+    - name: Reload firewalld
+      firewalld:
+        state: reloaded 
+    
     - name: install docker
       yum:
         name: yum-utils
@@ -116,3 +128,16 @@
          
   
 
+    - name: Ensure PermitRootLogin is set to no
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PermitRootLogin'  # 정규표현식, 구문에 #이 ?번 포함.
+        line: 'PermitRootLogin no'
+        backup: yes  # 수정 전 원본파일을 .bak으로 저장
+
+    - name: Configure SSH to disable root login and change port
+      command: sed -i -e 's/PermitRootLogin yes/PermitRootLogin no/' -e 's/#Port 22/Port 12321/' /etc/ssh/sshd_config
+      # 구문 치환 cmd
+
+        
