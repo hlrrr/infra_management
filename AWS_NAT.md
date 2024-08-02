@@ -1,0 +1,1 @@
+- create on **public** subnet. not on private.
