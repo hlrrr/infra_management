@@ -1,5 +1,6 @@
 <details><summary>k8s note ver.2</summary>
-	
+
+## 공통작업
 - set hostname
 - swapoff
 - setenforce 0
@@ -8,7 +9,7 @@
   cat <<EOF | tee /etc/modules-load.d/k8s.conf
   > overlay
   > br_netfilter
-  > EOF
+  EOF
 
   modprobe br_netfilter
   modprobe overlay
@@ -17,15 +18,79 @@
   
 - 커널 파라미터 수정(패킷이 iptables policy 따르도록)
   ```
-  cat <<EOF | tee /etc/systl.d/k8s.conf
+  cat <<EOF | tee /etc/sysctl.d/k8s.conf
   net.bridge.bridge-nf-call-iptables = 1
   net.bridge.bridge-nf-call-ip6tables = 1
   net.ipv4.ip_forward = 1
   EOF
   ```
+- 커널 파라미터 로딩 및 적용
+   ```
+   sysctl --system
+   ```
+- 로드된 커널 모듈 확인
+  ```
+  lsmod | grep br_netfilter
+  lsmod | grep overlay
+  ```
+- 수정된 커널 파라미터 확인
+  ```
+  sysctl  net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+  ```
+  
+- install containderd
+  ```
+  dnf install containerd
+  ```
+- containerd 기본 설정값 파일 생성 및 수정
+  ```
+  containerd config default > /etc/containerd/config.toml
+
+  vi /etc/containerd/config.toml
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+	SystemdCgroup = true
+
+  systemctl --now enable containerd
+  ```
+
+- installation\
+  https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#k8s-install-1
+
+## Controller
+
+- cmd setup
+  ```
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+  Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+  ```
+
+- install network add-on
+  open inbound ports if neeed (controller/worker)
+  ex) edit instance security group to allow TCP 6783 and UDP 6783/6784 ports
+  ```
+  kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+  ```
+
+- initialize
+  ```
+  kubeadm init
+  kubeadm init --ignore-preflight-errors=NumCPU,Mem (시스템 자원 부족시)
+  ```
+- tokern re-issue
+  ```
+  kubeadm token create --print-join-command
+  ```
+  
+## Worker
+- kubeadm join
   
 </details>
-
+    
 ---
 
 <details><summary>AWS note</summary>
@@ -34,8 +99,8 @@
 	```
 	aws ec2 create-default-subnet --availability-zone us-west-2a
 	```
-- 
 
+ 
 </details>
 
 ---
