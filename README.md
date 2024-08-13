@@ -1,3 +1,33 @@
+<details><summary>k8s note ver.2</summary>
+	
+- set hostname
+- swapoff
+- setenforce 0
+- module set and load
+  ```
+  cat <<EOF | tee /etc/modules-load.d/k8s.conf
+  > overlay
+  > br_netfilter
+  > EOF
+
+  modprobe br_netfilter
+  modprobe overlay
+  (트러블 슈팅시 가장 먼저 시도해볼것.)
+  ```
+  
+- 커널 파라미터 수정(패킷이 iptables policy 따르도록)
+  ```
+  cat <<EOF | tee /etc/systl.d/k8s.conf
+  net.bridge.bridge-nf-call-iptables = 1
+  net.bridge.bridge-nf-call-ip6tables = 1
+  net.ipv4.ip_forward = 1
+  EOF
+  ```
+  
+</details>
+
+---
+
 <details><summary>AWS note</summary>
 	
 - recover default VPC:
