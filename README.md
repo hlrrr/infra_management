@@ -58,22 +58,22 @@
   
 - change hostname
   ```
-  hostnamectl set-hostname [new_host_name]
-  
   vi /etc/hosts
+
+  hostnamectl set-hostname [new_host_name] 
   ```
   
 - disable swap
   ```
-  swappff -a
-
   vi /etc/fstab
+  
+  swappff -a
   ```
   
 - container runtime config.
   ```
   containerd config default > /etc/containerd/config.toml
-
+  
   vi /etc/containerd/config.toml
 
   [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
