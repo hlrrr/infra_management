@@ -29,7 +29,8 @@
       /run/sysctl.d/*.conf
       ```
 
-  - " --p" option only read this:
+  - " --p" option reload single conf file:
     ```
     /etc/sysctl.conf
+    (default, can be changed)
     ```
