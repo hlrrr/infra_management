@@ -53,7 +53,7 @@
   systemctl --now enable containerd
   ```
 
-- installation\
+- installation
   https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#k8s-install-1
 
 ## Controller
@@ -70,9 +70,10 @@
   ```
 
 - install network add-on
+  ```
   open inbound ports if neeed (controller/worker)
   ex) edit instance security group to allow TCP 6783 and UDP 6783/6784 ports
-  ```
+  
   kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
   ```
 
