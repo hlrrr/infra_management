@@ -68,6 +68,12 @@
 
   export KUBECONFIG=/etc/kubernetes/admin.conf
   ```
+  
+- initialize
+  ```
+  kubeadm init
+  kubeadm init --ignore-preflight-errors=NumCPU,Mem (시스템 자원 부족시)
+  ```
 
 - install network add-on
   ```
@@ -77,11 +83,6 @@
   kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
   ```
 
-- initialize
-  ```
-  kubeadm init
-  kubeadm init --ignore-preflight-errors=NumCPU,Mem (시스템 자원 부족시)
-  ```
 - tokern re-issue
   ```
   kubeadm token create --print-join-command
