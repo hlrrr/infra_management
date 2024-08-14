@@ -7,8 +7,8 @@
 - module set and load
   ```
   cat <<EOF | tee /etc/modules-load.d/k8s.conf
-  > overlay
-  > br_netfilter
+  overlay
+  br_netfilter
   EOF
 
   modprobe br_netfilter
