@@ -65,6 +65,12 @@
 
 ## Controller
 
+- initialize
+  ```
+  kubeadm init
+  kubeadm init --ignore-preflight-errors=NumCPU,Mem (시스템 자원 부족시)
+  ```
+  
 - cmd setup
   ```
   mkdir -p $HOME/.kube
@@ -76,12 +82,6 @@
   export KUBECONFIG=/etc/kubernetes/admin.conf
   ```
   
-- initialize
-  ```
-  kubeadm init
-  kubeadm init --ignore-preflight-errors=NumCPU,Mem (시스템 자원 부족시)
-  ```
-
 - install network add-on
   ```
   open inbound ports if neeed (controller/worker)
