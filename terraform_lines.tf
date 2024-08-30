@@ -9,11 +9,18 @@ resource "aws_vpc" "demo_vpc" {
 }
 
 # 프라이빗 서브넷
-## 프라이빗 서브넷 생성
-resource "aws_subnet" "demo_subnet_private" {
+## 프라이빗 서브넷 1 생성 
+resource "aws_subnet" "demo_subnet_private_1" {
 	vpc_id            = aws_vpc.demo_vpc
 	cidr_block        = "11.0.1.0/24"
 	availability_zone = "ap-northeast-2a"  # 원하는 가용 영역으로 설정
+}
+
+## 프라이빗 서브넷 2 생성 
+resource "aws_subnet" "demo_subnet_private_2" {
+	vpc_id            = aws_vpc.demo_vpc
+	cidr_block        = "11.0.3.0/24"
+	availability_zone = "ap-northeast-2b"  # 원하는 가용 영역으로 설정
 }
 
 ## 라우팅 테이블 생성
@@ -28,8 +35,12 @@ resource "aws_route_table" "demo_private_rt" {
 }
 
 # 프라이빗 서브넷을 라우팅 테이블에 연결
-resource "aws_route_table_association" "demo_private_rt_assoc" {
-	subnet_id      = aws_subnet.demo_subnet_private.id
+resource "aws_route_table_association" "demo_private_1_rt_assoc" {
+	subnet_id      = aws_subnet.demo_subnet_private_1.id
+	route_table_id = aws_route_table.demo_private_rt.id
+}
+resource "aws_route_table_association" "demo_private_2_rt_assoc" {
+	subnet_id      = aws_subnet.demo_subnet_private_1.id
 	route_table_id = aws_route_table.demo_private_rt.id
 }
 
@@ -117,15 +128,22 @@ resource "aws_db_security_group" "demo_rds_sg" {
 		protocol    = "tcp"
 		cidr_blocks = ["11.0.0.0/16"]  # 외부에서의 접속을 허용하는 규칙. 필요에 따라 수정
 	}
+
+	egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 ## 서브넷 그룹 생성
 resource "aws_db_subnet_group" "demo_db_subnetgroup" {
   name       = "demo-db-subnet-group"
-  subnet_ids = [aws_subnet.demo_vpc_private.id, demo_vp]
+  subnet_ids = [aws_subnet.demo_subnet_private_1, demo_subnet_private_2]
 
   tags = {
-    Name = "example-subnet-group"
+    Name = "demo-db-subnet-group"
   }
 }
 
@@ -137,13 +155,13 @@ resource "aws_db_instance" "demo_maria" {
 	instance_class       = "db.t3.micro"	# free tier
 	username             = "demoadmin"
 	password             = "demopasswd"  # 실제 사용 시, 보안 Vault에 저장하거나 환경 변수 사용 권장
-  db_subnet_group_name = aws_db_subnet_group.example.name
-  vpc_security_group_ids = [aws_security_group.example_sg.id]
+  db_subnet_group_name = aws_db_subnet_group.demo_db_subnetgroup.name
+  vpc_security_group_ids = [aws_security_group.demo_rds_sg.id]
   skip_final_snapshot  = true                  # 삭제 시 최종 스냅샷 생성을 건너뜀
 }
 
 output "ec2_instance_public_ip" {
-	value = aws_instance.web.public_ip
+	value = aws_instance.demo_bastion.public_ip
 }
 
 output "rds_endpoint" {
