@@ -176,9 +176,20 @@ resource "aws_db_instance" "demo_maria" {
 	skip_final_snapshot  = true                  # 삭제 시 최종 스냅샷 생성을 건너뜀
 }
 
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "demo-proj-s3-bkt"  # 버킷 이름을 유니크하게 지정
+}
+
+
 output "ec2_instance_public_ip" {
+	description = "The public ip of EC2 instance"
 	value = aws_instance.demo_bastion.public_ip
 }
 output "rds_endpoint" {
+	description = "The URL of rds endpoint"
 	value = aws_db_instance.demo_maria.endpoint
+}
+output "bucket_url" {
+  description = "The URL of the S3 bucket"
+  value       = "https://${aws_s3_bucket.my_bucket.bucket}.s3.amazonaws.com"
 }
