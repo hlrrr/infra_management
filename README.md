@@ -1,6 +1,6 @@
 # Notes for infra management
 
-
+## index
 - [Terraform_note](https://github.com/hlrrr/infra_management)
 - [Proxmox note](Proxmox_note/proxmox_note.md)
 - [Linux note](Linux_note/linux_configs.md)
