@@ -1,7 +1,4 @@
-
-<details><summary> k8s note ver.2</summary>
-
-## 공통작업
+# 공통작업
 - set hostname
 - swapoff
 - setenforce 0
@@ -54,10 +51,10 @@
   systemctl --now enable containerd
   ```
 
-- installation
+- installation \
   https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#k8s-install-1
 
-## Controller
+# Controller
 
 - initialize
   ```
@@ -89,17 +86,14 @@
   kubeadm token create --print-join-command
   ```
   
-## Worker
+# Worker
 - kubeadm join
-  
-</details>
 
+---
 
+<details><summary>another setup</summary>
 
-<details><summary>k8s Note</summary>
-
-
-- config for dualstack:
+ config for dualstack:
   ```
 	vi kubeadm-config.yaml
 	---

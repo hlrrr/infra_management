@@ -1,5 +1,4 @@
 # Ubuntu
-
 - add service
   ```
   ex) telnet
@@ -19,7 +18,6 @@
   ```
 
 # RedHat
-
 - "sysctl --system"  VS  "sysctl -p"
   -  "--system" option reload systemwide kernel parameter under dirs:
       ```

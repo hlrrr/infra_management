@@ -1,4 +1,4 @@
-<details><summary>Ansible Note</summary>
+
 
 - changed ssh port
   ```
@@ -29,4 +29,3 @@
 	become_user=root
 	become_ask_pass=True
   ```
-</details>
