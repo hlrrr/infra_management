@@ -12,3 +12,8 @@
   - Anticipate a scaling based on known usage patterns\
     Example: increase the min capacity to 10 at 5 pm on Fridays
 ---
+
+# Load Balancer
+- NLB VS ALB
+  - NLB support TCP and UDP
+  - ALB support HTTP(S), not UDP
