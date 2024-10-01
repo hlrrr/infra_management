@@ -52,28 +52,27 @@
   
 ## nslookup 결과 확인
 설정파일 작성이 완료되면 named 서비스를 재시작하고 설정한 도메인과 대상의 ip addr.이 제대로 연결되었는지 확인
-
-```
+ ```
 [root@Server ~]# nslookup zulu.node
-Server:         10.1.1.9
-Address:        10.1.1.9#53
-
-Name:   zulu.node
-Address: 10.1.1.1
-
-[root@Server ~]# nslookup yank.node
-Server:         10.1.1.9
-Address:        10.1.1.9#53
-
-Name:   yank.node
-Address: 10.1.1.2
-
-[root@Server ~]# nslookup xray.node
-Server:         10.1.1.9
-Address:        10.1.1.9#53
-
-Name:   xray.node
-```  
-
+ Server:         10.1.1.9
+ Address:        10.1.1.9#53
+ 
+ Name:   zulu.node
+ Address: 10.1.1.1
+ 
+ [root@Server ~]# nslookup yank.node
+ Server:         10.1.1.9
+ Address:        10.1.1.9#53
+ 
+ Name:   yank.node
+ Address: 10.1.1.2
+ 
+ [root@Server ~]# nslookup xray.node
+ Server:         10.1.1.9
+ Address:        10.1.1.9#53
+ 
+ Name:   xray.node
+ Address: 10.1.1.3
+ ```
 
 
