@@ -22,7 +22,7 @@
         content: |
           [myrepo]
           name=My ngnix Repo
-          baseurl=http://10.1.1.9/repo/
+          baseurl=http:// { nginx_server_ip } /repo/
           enabled=1
           gpgcheck=0
           priority=1
@@ -30,7 +30,7 @@
         content: |
           [myrepo]
           name=My FTP Repo
-          baseurl=ftp://{{ vsftpd_server_ip }}/repo/
+          baseurl=ftp:// { vsftpd_server_ip } /repo/
           enabled=1
           gpgcheck=0
           priority=0
