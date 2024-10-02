@@ -1,0 +1,32 @@
+---
+- name: Configure DNF repositories on multiple servers
+  hosts: nodes
+  become: yes
+
+  tasks:
+    - name: Disable all repositories by setting enabled=0
+      ansible.builtin.shell:
+        cmd: |
+          sed -i 's/enabled=1/enabled=0/g' /etc/yum.repos.d/*.repo &&  
+          dnf clean all &&
+          dnf repolist
+  # sed -i s/대상/치환/g
+      
+    - name: Add repository file for local repo
+      ansible.builtin.copy:
+        dest: /etc/yum.repos.d/myrepo.repo
+        content: |
+          [myrepo]
+          name=My ngnix Repo
+          baseurl=http://10.1.1.9/repo/
+          enabled=1
+          gpgcheck=0
+          priority=1
+        
+        content: |
+          [myrepo]
+          name=My FTP Repo
+          baseurl=ftp://{{ vsftpd_server_ip }}/repo/
+          enabled=1
+          gpgcheck=0
+          priority=0
