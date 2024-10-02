@@ -1,9 +1,13 @@
 ---
 - name: Configure DNF repositories on multiple servers
   hosts: nodes
-  become: yes
-
   tasks:
+    - name: Install authorized key
+      ansible.builtin.authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+        
     - name: Disable all repositories by setting enabled=0
       ansible.builtin.shell:
         cmd: |
