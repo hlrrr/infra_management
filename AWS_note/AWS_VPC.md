@@ -5,3 +5,9 @@
   - attach IG to VPC
   - associate subnet to routing table
   - edit routes
+
+# Recover default VPC
+```
+aws ec2 create-default-subnet --availability-zone us-west-2a
+```
+
