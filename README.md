@@ -15,7 +15,7 @@
 
 ### Notes for infra management
 - [Proxmox note](Proxmox_note/proxmox_note.md)
-- [K8S note](K8S_note/k8s.md)
+- [K8S note](https://github.com/hlrrr/infra_management/tree/main/K8S_note)
 - [AWS note](https://github.com/hlrrr/infra_management/tree/main/AWS_note)
 - [Terraform note](https://github.com/hlrrr/infra_management/blob/main/Terraform_note/Terraform_note.md)
 - [Linux note](Linux_note/linux_configs.md)
