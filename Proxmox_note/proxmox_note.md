@@ -1,14 +1,32 @@
-# windows VM driver troubles
- OS 설치중 디스크 인식, 설치 후 드라이버는 대부분 virtio-win.iso를 통해 해결 가능.
-  
-# ubuntu VM(cloned) ip addr config 
+<details><summary> Virtual Machine </summary>
+
+# Windows VM
+- driver troubles\
+  OS 설치중 디스크 인식, 설치 후 드라이버는 대부분 virtio-win.iso를 통해 해결 가능.
+
+- add disk\
+  After the host recognizes the storage, use the disk ID to add the disk to the VM.
+	```
+	# 하드웨어 기반 id 사용, 연결방식에 따라 다수의 id가 나올 수 있으나 같은 디스크를 바라봄.
+	ls -l /dev/disk/by-id, /by-uuid ...
+
+	/etc/pve/qemu-server/<VMID>.conf  수정
+	ex) scsi1: /dev/disk/by-id/scsi-3600c0ff00066b57d07bd6e6701000000,format=raw
+	```
+
+# Linux VM
+- ubuntu VM(cloned) ip addr config 
   ```
   /etc/netplan/[some-config.yaml]  
 
   netplan apply
   systemctl restart systemd-networkd
   ```
+  
+</details>
 
+<details><summary> Host setup </summary>
+	
 # DNS setup
   setup server via dnsmasq.\
   let LXCs use the DNS server.\
@@ -57,3 +75,5 @@
   
   On network tab of CT(or VM), add network the vlan device.\
   ![image](https://github.com/hlrrr/infra/assets/74647150/5d49ba03-dc28-408a-a225-f1b96d43225a)
+
+</details>
