@@ -1,5 +1,7 @@
-
- # ubuntu VM(cloned) ip addr config 
+# windows VM finding device troubles
+ OS 설치중 디스크 인식, 설치 후 드라이버는 대부분 virtio-win.iso를 통해 해결 가능.
+  
+# ubuntu VM(cloned) ip addr config 
   ```
   /etc/netplan/[some-config.yaml]  
 
